@@ -5,8 +5,8 @@ import re
 
 class Player:
     def __init__(self, kingdom):
-        self.kingdom = kingdom
-        self.location = 0
+        self.kingdom = kingdom  # What does this even do?
+        self.location = 1  # Start at 1 so that we don't find pirates if `walk 0`
         self.energy = 10
         self.food = 10
 
@@ -15,7 +15,7 @@ class Player:
         self.energy = self.energy + food
 
         if self.food < 0:
-            print("No food, you died.")
+            print("You ate so much you ate yourself.")  # More accurate
             exit()
 
         else:
@@ -27,7 +27,7 @@ class Player:
 
     def walk(self, steps):
 
-        if steps == 1:
+        if steps == 1 or steps == 0:  # Stops you from being immortal
             energy_loss = 1
         else:
             energy_loss = int(steps / 2)
@@ -46,11 +46,17 @@ class Player:
             exit()
 
         elif self.location % pirates == 0:
-            print("YOU FOUND PIRATES! They stole your food")
+            print("YOU FOUND PIRATES!")  # Leaving the consecuence for later
             self.food = self.food - randint(1, 3)
-            print("Location:", self.location)
-            print("Energy:", self.energy)
-            print("Food:", self.food)
+            if self.food < 0:
+                print("You don't have any more food")
+                print("Pirates got angry and killed you")  # Added the death from lack of food
+                exit()
+            else:
+                print("Pirates stole some food!")
+                print("Location:", self.location)
+                print("Energy:", self.energy)
+                print("Food:", self.food)
 
         elif self.location == 19:
             print("YOU WAKE UP!!! It was all a dream...")
